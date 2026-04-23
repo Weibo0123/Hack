@@ -1,6 +1,9 @@
 from flask import Flask, request, jsonify
+import docker
 
 app = Flask(__name__)
+
+client = docker.from_env()
 
 FLAGS = {
     "FLAG{player1}": "player1",
@@ -14,11 +17,20 @@ def submit_flag():
     flag = data.get("flag")
 
     if flag in FLAGS:
+        try:
+            container = client.containers.get(target)
+            container.stop()
+        except Exception as e:
+            return jsonify({
+                "status": "error",
+                "message": str(e)
+            }), 500
+        
         return jsonify({
             "status": "success",
-            "eliminated": FLAGS[flag]
+            "eliminated": target
         })
-    
+
     return jsonify({
         "status": "error",
         "message": "invalid flag"
@@ -26,7 +38,7 @@ def submit_flag():
 
 @app.route("/")
 def home():
-    return "KoTH server running"
+    return "Hack server running"
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
