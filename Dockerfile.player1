@@ -1,5 +1,5 @@
 FROM debian:stable-slim
 
-RUN echo "FLAG{test_flag}" > /root/flag.txt
+RUN echo "FLAG{player1}" > /root/flag.txt
 
 CMD ["bash"]
