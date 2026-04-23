@@ -17,6 +17,8 @@ def submit_flag():
     flag = data.get("flag")
 
     if flag in FLAGS:
+        target = FLAGS[flag]
+        
         try:
             container = client.containers.get(target)
             container.stop()
