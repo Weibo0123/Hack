@@ -4,6 +4,14 @@ RUN apt update && apt install -y \
     iputils-ping \
     curl \
     openssh-server \
+    openssh-client \
+    iproute2 \
+    net-tools \
+    procps \
+    lsof \
+    nano \
+    vim \
+    wget \
     passwd
 
 RUN mkdir -p /var/run/sshd
@@ -14,6 +22,9 @@ RUN echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
 RUN echo "PasswordAuthentication yes" >> /etc/ssh/sshd_config
 RUN echo "PermitEmptyPasswords yes" >> /etc/ssh/sshd_config
 RUN echo "UsePAM no" >> /etc/ssh/sshd_config
+
+RUN touch /home/user/README.txt
+RUN echo "TODO: disable empty password login before production" > /home/user/README.txt
 
 RUN echo "FLAG{player1}" > /root/flag.txt
 
